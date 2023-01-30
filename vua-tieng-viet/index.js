@@ -40,21 +40,29 @@ const arrayToString = (arr) => arr.join("");
 
 (async () => {
   let scores = [];
+  let noScores = [];
 
-  let list = await permutator(stringToArray(shuffleString("bóc môi")), (text) => {
-    let score = getScore(text, "vietnamese");
-    if (score) {
-      scores.push({ score, text });
-      scores = scores.sort((a, b) => b.score - a.score);
-      console.log(
-        text,
-        score,
-        scores.slice(0, 4).map((_) => _.text)
-      );
-    } else {
-      process.stdout.write(text + "\r");
+  let list = await permutator(
+    stringToArray(shuffleString("Viến gốl")),
+    (text) => {
+      let score = getScore(text, "vietnamese");
+      if (score) {
+        scores.push({ score, text });
+        scores = scores.sort((a, b) => b.score - a.score);
+        console.log(
+          text,
+          score,
+          scores.slice(0, 4).map((_) => _.text)
+        );
+      } else {
+        noScores.push({ score, text });
+        process.stdout.write(text + "\r");
+      }
     }
-  });
+  );
 
-  console.log(scores);
+  console.log(
+    scores.map((_) => _.text).join(", "),
+    noScores.map((_) => _.text).join(", ")
+  );
 })();
